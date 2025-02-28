@@ -1,198 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Talo's Recipe Library</title>
-  <link rel="stylesheet" href="https://use.typekit.net/fpl0cry.css">
-  <link rel="stylesheet" href="./style.css">
-</head>
-<body>
-  <header class="header">
-    <div class="header-top">
-      <h1 class="main-title">Recipe Library</h1>
-      <div id="menu-icon" class="menu-icon">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-    </div>
-    <nav class="navbar">
-      <div id="nav-links" class="nav-links">
-        <!-- Diets dropdown (multi-select) -->
-        <div class="dropdown-container">
-          <a href="#" class="dropdown-trigger" data-dropdown="diets">
-            Diets <span class="arrow-icon"></span>
-          </a>
-          <div id="dropdown-diets" class="dropdown-menu">
-            <button class="dropdown-btn" id="vegan">Vegan</button>
-            <button class="dropdown-btn" id="vegetarian">Vegetarian</button>
-            <button class="dropdown-btn" id="glutenfree">Gluten-free</button>
-            <button class="dropdown-btn" id="dairyfree">Dairy-free</button>
-            <button class="dropdown-btn" id="meat">Meat</button>
-            <button class="dropdown-btn" id="fish">Fish</button>
-          </div>
-        </div>
-        <!-- Cuisine dropdown (multi-select) -->
-        <div class="dropdown-container">
-          <a href="#" class="dropdown-trigger" data-dropdown="cuisine">
-            Cuisine <span class="arrow-icon"></span>
-          </a>
-          <div id="dropdown-cuisine" class="dropdown-menu">
-            <button class="dropdown-btn">Mediterranean</button>
-            <button class="dropdown-btn">Middle Eastern</button>
-            <button class="dropdown-btn">Asian</button>
-            <button class="dropdown-btn">Italian</button>
-            <button class="dropdown-btn">Mexican</button>
-          </div>
-        </div>
-        <!-- Cooking time dropdown (multi-select) -->
-        <div class="dropdown-container">
-          <a href="#" class="dropdown-trigger" data-dropdown="cooking-time">
-            Cooking time <span class="arrow-icon"></span>
-          </a>
-          <div id="dropdown-cooking-time" class="dropdown-menu">
-            <button class="dropdown-btn">Under 15 min</button>
-            <button class="dropdown-btn">15-30 min</button>
-            <button class="dropdown-btn">30-60 min</button>
-            <button class="dropdown-btn">Over 60 min</button>
-          </div>
-        </div>
-        <!-- -/+ Ingredients dropdown (multi-select) -->
-        <div class="dropdown-container">
-          <a href="#" class="dropdown-trigger" data-dropdown="ingredients">
-            -/+ Ingredients <span class="arrow-icon"></span>
-          </a>
-          <div id="dropdown-ingredients" class="dropdown-menu">
-            <button class="dropdown-btn">Under 5 ingredients</button>
-            <button class="dropdown-btn">6-10 ingredients</button>
-            <button class="dropdown-btn">11-15 ingredients</button>
-            <button class="dropdown-btn">Over 16 ingredients</button>
-          </div>
-        </div>
-        <!-- Sort by dropdown (single-select) -->
-        <div class="dropdown-container">
-          <a href="#" class="dropdown-trigger" data-dropdown="sort">
-            Sort by: <span class="arrow-icon"></span>
-          </a>
-          <div id="dropdown-sort" class="dropdown-menu">
-            <button class="dropdown-btn sort-btn">Cooking time</button>
-            <button class="dropdown-btn sort-btn">Popularity</button>
-            <button class="dropdown-btn sort-btn">Price per serving</button>
-            <button class="dropdown-btn sort-btn">-/+ Ingredients</button>
-            <button class="dropdown-btn sort-btn">Newest</button>
-            <button class="dropdown-btn sort-btn">Rating</button>
-          </div>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talo's Recipe Library</title>
+    <link rel="stylesheet" href="https://use.typekit.net/fpl0cry.css">
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body>
+    <header class="header">
+      <div class="header-top">
+        <h1 class="main-title">Recipe Library</h1>
+        <div id="menu-icon" class="menu-icon">
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
       </div>
-    </nav>
-  </header>
-  <main>
-    <section class="recipes">
-      <!-- Recipe Card 1 -->
-      <div class="recipe-card">
-        <h2>Temporary placeholder for filters & sorting</h2>
-        <div class="divider"></div>
-        <div class="cuisine-time">
-          <div class="cuisine-time-row">
-            <h3>Cuisine:</h3>
-            <p>You choose!</p>
+      <nav class="navbar">
+        <div id="nav-links" class="nav-links">
+          <!-- Diets dropdown (multi-select) -->
+          <div class="dropdown-container">
+            <a href="#" class="dropdown-trigger" data-dropdown="diets">
+              Diets <span class="arrow-icon"></span>
+            </a>
+            <div id="dropdown-diets" class="dropdown-menu">
+              <button class="dropdown-btn" id="vegan">Vegan</button>
+              <button class="dropdown-btn" id="vegetarian">Vegetarian</button>
+              <button class="dropdown-btn" id="glutenfree">Gluten-free</button>
+              <button class="dropdown-btn" id="dairyfree">Dairy-free</button>
+              <button class="dropdown-btn" id="meat">Meat</button>
+              <button class="dropdown-btn" id="fish">Fish</button>
+            </div>
           </div>
-          <div class="cuisine-time-row">
-            <h3>Time:</h3>
-            <p>We'll see soon</p>
+          <!-- Cuisine dropdown (multi-select) -->
+          <div class="dropdown-container">
+            <a href="#" class="dropdown-trigger" data-dropdown="cuisine">
+              Cuisine <span class="arrow-icon"></span>
+            </a>
+            <div id="dropdown-cuisine" class="dropdown-menu">
+              <button class="dropdown-btn">Mediterranean</button>
+              <button class="dropdown-btn">Middle Eastern</button>
+              <button class="dropdown-btn">Asian</button>
+              <button class="dropdown-btn">Italian</button>
+              <button class="dropdown-btn">Mexican</button>
+            </div>
           </div>
-        </div>
-        <div class="divider"></div>
-        <h3>Messages</h3>
-        <section id="answers"></section>
-      </div>
-      <!-- Recipe Card 2 -->
-      <div class="recipe-card">
-        <img src="./assets/tacos.webp" alt="Tacos Image">
-        <h2>Chipotle-smoked Butter with Geepeetee tacos</h2>
-        <p>Smoke on the butter!</p>
-        <div class="divider"></div>
-        <div class="cuisine-time">
-          <div class="cuisine-time-row">
-            <h3>Cuisine:</h3>
-            <p>Mexican</p>
+          <!-- Cooking time dropdown (multi-select) -->
+          <div class="dropdown-container">
+            <a href="#" class="dropdown-trigger" data-dropdown="cooking-time">
+              Cooking time <span class="arrow-icon"></span>
+            </a>
+            <div id="dropdown-cooking-time" class="dropdown-menu">
+              <button class="dropdown-btn">Under 15 min</button>
+              <button class="dropdown-btn">15-30 min</button>
+              <button class="dropdown-btn">30-60 min</button>
+              <button class="dropdown-btn">Over 60 min</button>
+            </div>
           </div>
-          <div class="cuisine-time-row">
-            <h3>Time:</h3>
-            <p>20 minutes</p>
+          <!-- -/+ Ingredients dropdown (multi-select) -->
+          <div class="dropdown-container">
+            <a href="#" class="dropdown-trigger" data-dropdown="ingredients">
+              -/+ Ingredients <span class="arrow-icon"></span>
+            </a>
+            <div id="dropdown-ingredients" class="dropdown-menu">
+              <button class="dropdown-btn">Under 5 ingredients</button>
+              <button class="dropdown-btn">6-10 ingredients</button>
+              <button class="dropdown-btn">11-15 ingredients</button>
+              <button class="dropdown-btn">Over 16 ingredients</button>
+            </div>
           </div>
-        </div>
-        <div class="divider"></div>
-        <h3>Ingredients</h3>
-        <div class="ingredients-list">
-          <ul class="ingredients">
-            <li>1 cup corn flour</li>
-            <li>Ghee Butter, geez, lots of ghee butter</li>
-            <li>Meat, a ton won't be enough</li>
-            <li>10 liters of habanero sauce</li>
-          </ul>
-        </div>
-        <button class="view-recipe-btn">View Recipe</button>
-      </div>
-      <!-- Recipe Card 3 -->
-      <div class="recipe-card">
-        <img src="./assets/codepenne.webp" alt="Codepenne Image">
-        <h2>Codepenne al Figmatti</h2>
-        <p>With micro soft apples.</p>
-        <div class="divider"></div>
-        <div class="cuisine-time">
-          <div class="cuisine-time-row">
-            <h3>Cuisine:</h3>
-            <p>Italian</p>
-          </div>
-          <div class="cuisine-time-row">
-            <h3>Time:</h3>
-            <p>45 minutes</p>
-          </div>
-        </div>
-        <div class="divider"></div>
-        <h3>Ingredients</h3>
-        <div class="ingredients-list">
-          <ul class="ingredients">
-            <li>500g gluten rich fluor</li>
-            <li>2 tbsp. olive oil, plus a little extra for drizzling</li>
-            <li>25g parmesan (or vegetarian alternative), grated</li>
-            <li>75g micro soft apples</li>
-          </ul>
-        </div>
-        <button class="view-recipe-btn">View Recipe</button>
-      </div>
-      <!-- Recipe Card 4 -->
-      <div class="recipe-card">
-        <img src="./assets/kanba_sushi.webp" alt="Sushi Image">
-        <h2>Kanba Sushi</h2>
-        <p>Exotic and pleasant in one single (mega)bite</p>
-        <div class="divider"></div>
-        <div class="cuisine-time">
-          <div class="cuisine-time-row">
-            <h3>Cuisine:</h3>
-            <p>Asian</p>
-          </div>
-          <div class="cuisine-time-row">
-            <h3>Time:</h3>
-            <p>15 minutes</p>
+          <!-- Sort by dropdown (single-select) -->
+          <div class="dropdown-container">
+            <a href="#" class="dropdown-trigger" data-dropdown="sort">
+              Sort by: <span class="arrow-icon"></span>
+            </a>
+            <div id="dropdown-sort" class="dropdown-menu">
+              <button class="dropdown-btn sort-btn">Cooking time</button>
+              <button class="dropdown-btn sort-btn">Popularity</button>
+              <button class="dropdown-btn sort-btn">Price per serving</button>
+              <button class="dropdown-btn sort-btn">-/+ Ingredients</button>
+              <button class="dropdown-btn sort-btn">Newest</button>
+              <button class="dropdown-btn sort-btn">Rating</button>
+            </div>
           </div>
         </div>
-        <div class="divider"></div>
-        <h3>Ingredients</h3>
-        <div class="ingredients-list">
-          <ul class="ingredients">
-            <li>1 kg Fish</li>
-            <li>500 g Rice</li>
-            <li>Seagrass</li>
-            <li>Wasabi</li>
-          </ul>
+      </nav>
+    </header>
+    <main>
+      <section class="recipes">
+        <!-- Recipe Card 1 -->
+        <div class="recipe-card">
+          <h2>Temporary placeholder for filters/sorting options</h2>
+          <div class="divider"></div>
+          <div class="cuisine-time">
+            <div class="cuisine-time-row">
+              <h3>Cuisine:</h3>
+              <p>You choose!</p>
+            </div>
+            <div class="cuisine-time-row">
+              <h3>Time:</h3>
+              <p>We'll see soon</p>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <h3>Messages</h3>
+          <section id="answers"></section>
         </div>
-        <button class="view-recipe-btn">View Recipe</button>
-      </div>
-    </section>
-  </main>
-  <script src="./script.js"></script>
-</body>
+        <!-- Recipe Card 2 -->
+        <div class="recipe-card">
+          <img src="./assets/tacos.webp" alt="Tacos Image">
+          <h2>Chipotle-smoked Butter with Geepeetee tacos</h2>
+          <p>Smoke on the butter!</p>
+          <div class="divider"></div>
+          <div class="cuisine-time">
+            <div class="cuisine-time-row">
+              <h3>Cuisine:</h3>
+              <p>Mexican</p>
+            </div>
+            <div class="cuisine-time-row">
+              <h3>Time:</h3>
+              <p>20 minutes</p>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <h3>Ingredients</h3>
+          <div class="ingredients-list">
+            <ul class="ingredients">
+              <li>1 cup corn flour</li>
+              <li>Ghee Butter, geez, lots of ghee butter</li>
+              <li>Meat, a ton won't be enough</li>
+              <li>10 liters of habanero sauce</li>
+            </ul>
+          </div>
+          <button class="view-recipe-btn">View Recipe</button>
+        </div>
+        <!-- Recipe Card 3 -->
+        <div class="recipe-card">
+          <img src="./assets/codepenne.webp" alt="Codepenne Image">
+          <h2>Codepenne al Figmatti</h2>
+          <p>With micro soft apples.</p>
+          <div class="divider"></div>
+          <div class="cuisine-time">
+            <div class="cuisine-time-row">
+              <h3>Cuisine:</h3>
+              <p>Italian</p>
+            </div>
+            <div class="cuisine-time-row">
+              <h3>Time:</h3>
+              <p>45 minutes</p>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <h3>Ingredients</h3>
+          <div class="ingredients-list">
+            <ul class="ingredients">
+              <li>500g gluten rich fluor</li>
+              <li>2 tbsp. olive oil, plus a little extra for drizzling</li>
+              <li>25g parmesan (or vegetarian alternative), grated</li>
+              <li>75g micro soft apples</li>
+            </ul>
+          </div>
+          <button class="view-recipe-btn">View Recipe</button>
+        </div>
+        <!-- Recipe Card 4 -->
+        <div class="recipe-card">
+          <img src="./assets/kanba_sushi.webp" alt="Sushi Image">
+          <h2>Kanba Sushi</h2>
+          <p>Exotic and pleasant in one single (mega)bite</p>
+          <div class="divider"></div>
+          <div class="cuisine-time">
+            <div class="cuisine-time-row">
+              <h3>Cuisine:</h3>
+              <p>Asian</p>
+            </div>
+            <div class="cuisine-time-row">
+              <h3>Time:</h3>
+              <p>15 minutes</p>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <h3>Ingredients</h3>
+          <div class="ingredients-list">
+            <ul class="ingredients">
+              <li>1 kg Fish</li>
+              <li>500 g Rice</li>
+              <li>Seagrass</li>
+              <li>Wasabi</li>
+            </ul>
+          </div>
+          <button class="view-recipe-btn">View Recipe</button>
+        </div>
+      </section>
+    </main>
+    <script src="./script.js"></script>
+  </body>
 </html>

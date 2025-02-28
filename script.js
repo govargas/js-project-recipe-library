@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function() {
   });
   
   meatBtn.addEventListener("click", () => {
-    messageBox.innerHTML += "<p>We met at a Meat Loaf concert</p>";
+    messageBox.innerHTML += "<p> Did we meet at a Meat Loaf concert</p>";
   });
   
   fishBtn.addEventListener("click", () => {

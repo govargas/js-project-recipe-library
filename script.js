@@ -6,6 +6,8 @@ document.addEventListener("DOMContentLoaded", function() {
   const filterDropdowns = document.querySelectorAll(
     "#dropdown-diets, #dropdown-cuisine, #dropdown-cooking-time, #dropdown-ingredients"
   );
+
+  // Finds the element with the ID "dropdown-sort", which is used for sorting options.
   const sortDropdown = document.getElementById("dropdown-sort");
   
   // Diet filter buttons
@@ -16,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function() {
   const meatBtn = document.getElementById("meat");
   const fishBtn = document.getElementById("fish");
   
-  // Message box for displaying messages on Recipe Card 1
+  // Message box for displaying messages on Recipe Card 1. Finds the element with the ID "answers", where messages (like “You are Vegan. So am I.”) will be inserted.
   const messageBox = document.getElementById("answers");
 
   // --- Event Listeners ---
@@ -43,13 +45,13 @@ document.addEventListener("DOMContentLoaded", function() {
     dropdown.querySelectorAll(".dropdown-btn").forEach(btn => {
       btn.addEventListener("click", function() {
         this.classList.toggle("selected");
-        // Can add filtering logic here later if needed.
+        // Can add filtering logic here later if needed, add more logic to actually filter the recipes based on the selection.
       });
     });
   });
 
   // Single-select for sort-by dropdown
-  if (sortDropdown) {
+  if (sortDropdown) { 
     const sortButtons = sortDropdown.querySelectorAll(".dropdown-btn");
     sortButtons.forEach(btn => {
       btn.addEventListener("click", function() {

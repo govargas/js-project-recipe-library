@@ -114,6 +114,7 @@ html, body {
   align-items: flex-start;
   gap: 12px;
   background-color: #fff;
+  border: 2px solid #E9E9E9;
   width: 100%;
   padding: 10px;
 }
@@ -331,6 +332,7 @@ gap: 5px; /* Adds spacing between elements */
   /* Force each navigation (dropdown container) to take 25% width */
   .dropdown-container {
     flex: 0 0 20%;
+    position: relative;
   }
   /* Move arrow icons close to the text */
   .dropdown-trigger {
@@ -344,6 +346,15 @@ gap: 5px; /* Adds spacing between elements */
     width: 100%;
     justify-content: space-between;
     row-gap: 32px;
+  }
+
+  .dropdown-menu {
+    position: absolute;
+    top: 100%; /* Position the dropdown right below the trigger */
+    left: 0;
+    width: 100%;
+    border-radius: 10px;
+    z-index: 1000; /* A high z-index so it appears on top */
   }
   .recipe-card {
     width: calc(25% - 24px); /* Four per row with spacing */

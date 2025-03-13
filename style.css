@@ -177,10 +177,21 @@ html, body {
 
 /* Surprise me! icon styling */
 .surprise-icon {
-  width: 1em; 
-  height: auto;          /* Let width auto-scale the height */
-  margin-right: 4px;     /* Small gap between icon and text */
-  vertical-align: middle;/* Align icon with text baseline */
+  width: 20px; /* Adjust size if necessary */
+  height: 20px;
+  margin: 0; /* Remove unwanted margins */
+  vertical-align: middle; /* Ensures proper text alignment */
+}
+
+.surprise-container .dropdown-btn {
+  width: auto; /* Only take the necessary width */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 16px;
+  margin: 0 auto; /* Center the button */
+  text-align: center;
 }
 
 /* Recipe cards container */

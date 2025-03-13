@@ -345,8 +345,8 @@ gap: 5px; /* Adds spacing between elements */
   .nav-links {
     display: flex !important;
     flex-direction: row;
-    flex-wrap: wrap;
-    padding: 13px;
+    flex-wrap: nowrap;
+    justify-content: space-around;
   }
   /* Force each navigation (dropdown container) to take 20% width */
   .dropdown-container {

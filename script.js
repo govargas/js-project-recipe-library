@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", async function() {
   // --- DOM Selectors ---
   const menuIcon = document.getElementById("menu-icon");
   const navLinks = document.getElementById("nav-links");
@@ -18,173 +18,56 @@ document.addEventListener("DOMContentLoaded", function() {
   const meatBtn = document.getElementById("meat");
   const fishBtn = document.getElementById("fish");
 
-  // --- Recipe Data ---
-  const recipes = [
-    {
-      id: 1,
-      title: "Vegan Lentil Soup",
-      image: "./assets/chickpeas.webp",
-      readyInMinutes: 30,
-      servings: 4,
-      sourceUrl: "https://example.com/vegan-lentil-soup",
-      diets: ["vegan"],
-      cuisine: "Mediterranean",
-      ingredients: [
-        "red lentils",
-        "carrots",
-        "onion",
-        "garlic",
-        "tomato paste",
-        "cumin",
-        "paprika",
-        "vegetable broth",
-        "olive oil",
-        "salt"
-      ],
-      pricePerServing: 2.5,
-      popularity: 85
-    },
-    {
-      id: 2,
-      title: "Vegetarian Pesto Pasta",
-      image: "./assets/codepenne.webp",
-      readyInMinutes: 25,
-      servings: 2,
-      sourceUrl: "https://example.com/vegetarian-pesto-pasta",
-      diets: ["vegetarian"],
-      cuisine: "Italian",
-      ingredients: [
-        "pasta",
-        "basil",
-        "parmesan cheese",
-        "garlic",
-        "pine nuts",
-        "olive oil",
-        "salt",
-        "black pepper"
-      ],
-      pricePerServing: 3.0,
-      popularity: 92
-    },
-    {
-      id: 3,
-      title: "Gluten-Free Chicken Stir-Fry",
-      image: "./assets/tacos.webp",
-      readyInMinutes: 20,
-      servings: 3,
-      sourceUrl: "https://example.com/gluten-free-chicken-stir-fry",
-      diets: ["gluten-free"],
-      cuisine: "Asian",
-      ingredients: [
-        "chicken breast",
-        "broccoli",
-        "bell pepper",
-        "carrot",
-        "soy sauce (gluten-free)",
-        "ginger",
-        "garlic",
-        "sesame oil",
-        "cornstarch",
-        "green onion",
-        "sesame seeds",
-        "rice"
-      ],
-      pricePerServing: 4.0,
-      popularity: 78
-    },
-    {
-      id: 4,
-      title: "Dairy-Free Tacos",
-      image: "./assets/kanba_sushi.webp",
-      readyInMinutes: 15,
-      servings: 2,
-      sourceUrl: "https://example.com/dairy-free-tacos",
-      diets: ["dairy-free"],
-      cuisine: "Mexican",
-      ingredients: [
-        "corn tortillas",
-        "ground beef",
-        "taco seasoning",
-        "lettuce",
-        "tomato",
-        "avocado"
-      ],
-      pricePerServing: 2.8,
-      popularity: 88
-    },
-    {
-      id: 5,
-      title: "Middle Eastern Hummus",
-      image: "./assets/chickpeas.webp",
-      readyInMinutes: 10,
-      servings: 4,
-      sourceUrl: "https://example.com/middle-eastern-hummus",
-      diets: ["vegan", "gluten-free"],
-      cuisine: "Middle Eastern",
-      ingredients: [
-        "chickpeas",
-        "tahini",
-        "garlic",
-        "lemon juice",
-        "olive oil"
-      ],
-      pricePerServing: 1.5,
-      popularity: 95
-    },
-    {
-      id: 6,
-      title: "Quick Avocado Toast",
-      image: "./assets/chickpeas.webp",
-      readyInMinutes: 5,
-      servings: 1,
-      sourceUrl: "https://example.com/quick-avocado-toast",
-      diets: ["vegan"],
-      cuisine: "Mediterranean",
-      ingredients: [
-        "bread",
-        "avocado",
-        "lemon juice",
-        "salt"
-      ],
-      pricePerServing: 2.0,
-      popularity: 90
-    },
-    {
-      id: 7,
-      title: "Beef Stew",
-      image: "./assets/chickpeas.webp",
-      readyInMinutes: 90,
-      servings: 5,
-      sourceUrl: "https://example.com/beef-stew",
-      diets: [],
-      cuisine: "European",
-      ingredients: [
-        "beef chunks",
-        "potatoes",
-        "carrots",
-        "onion",
-        "garlic",
-        "tomato paste",
-        "beef broth",
-        "red wine",
-        "bay leaves",
-        "thyme",
-        "salt",
-        "black pepper",
-        "butter",
-        "flour",
-        "celery",
-        "mushrooms"
-      ],
-      pricePerServing: 5.5,
-      popularity: 80
+  // Global variable to store the current recipes
+  let currentRecipes = [];
+
+  // --- Loading State ---
+  recipesContainer.innerHTML = "<p>Loading recipes...</p>";
+
+  // --- Fetching Recipes from Spoonacular API ---
+  async function fetchRecipes() {
+    const BASE_URL = "https://api.spoonacular.com/recipes/random";
+    const API_KEY = "38995979effa4b9ba9ef9e5e014aa6c0";
+    // Request 15 recipes
+    const URL = `${BASE_URL}?apiKey=${API_KEY}&number=15`;
+
+    try {
+      const response = await fetch(URL);
+      if (!response.ok) {
+        throw new Error(`Error! Status: ${response.status}`);
+      }
+      const data = await response.json();
+      // Filter out recipes missing key info (cuisines, image, title)
+      let fetchedRecipes = data.recipes.filter(recipe => {
+        return recipe.cuisines && recipe.cuisines.length > 0 && recipe.image && recipe.title;
+      });
+      // Store fetched recipes in localStorage as a fallback
+      localStorage.setItem("recipes", JSON.stringify(fetchedRecipes));
+      return fetchedRecipes;
+    } catch (error) {
+      console.error("Fetch error:", error.message);
+      // Propagate the error so the site can handle it below
+      throw error;
     }
-  ];
+  }
 
-  // Start with all recipes displayed
-  let currentRecipes = recipes;
+  // Attempt to fetch new recipes on page load.
+  try {
+    currentRecipes = await fetchRecipes();
+    renderRecipes(currentRecipes);
+  } catch (error) {
+    // If the fetch fails (e.g., API quota reached), try to load stored recipes.
+    const storedRecipes = localStorage.getItem("recipes");
+    if (storedRecipes) {
+      currentRecipes = JSON.parse(storedRecipes);
+      renderRecipes(currentRecipes);
+      recipesContainer.innerHTML += "<p>We've reached the API quota; displaying cached recipes.</p>";
+    } else {
+      recipesContainer.innerHTML = "<p>Ooops, we couldn’t fetch recipes. Please try again later.</p>";
+    }
+  }
 
-  // --- Existing Event Listeners for Menu & Dropdowns ---
+  // --- Event Listeners for Menu & Dropdowns ---
 
   // Toggle hamburger menu (mobile)
   menuIcon.addEventListener("click", function() {
@@ -195,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function() {
   // Toggle dropdown menus and rotate arrow icons
   dropdownTriggers.forEach(trigger => {
     trigger.addEventListener("click", function(e) {
-      e.preventDefault();
+      e.preventDefault(); // Prevent default link behavior
       const dropdownMenu = this.parentElement.querySelector(".dropdown-menu");
       dropdownMenu.classList.toggle("active");
       const arrow = this.querySelector(".arrow-icon");
@@ -208,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function() {
     dropdown.querySelectorAll(".dropdown-btn").forEach(btn => {
       btn.addEventListener("click", function() {
         this.classList.toggle("selected");
-        // Update displayed recipes after filter change
+        // Update the displayed recipes based on the selected filters
         currentRecipes = filterRecipes();
         renderRecipes(currentRecipes);
       });
@@ -222,24 +105,22 @@ document.addEventListener("DOMContentLoaded", function() {
       btn.addEventListener("click", function() {
         sortButtons.forEach(b => b.classList.remove("selected"));
         this.classList.add("selected");
-        // Sort the current recipes based on the sort option
+        // Sort the recipes based on the selected sort option
         currentRecipes = sortRecipes(currentRecipes, this.textContent.trim());
         renderRecipes(currentRecipes);
       });
     });
   }
 
-  // Surprise me button: selects a random recipe and renders it
+  // Surprise me button: picks a random recipe from the full list and renders it
   if (surpriseBtn) {
     surpriseBtn.addEventListener("click", function() {
-      const randomRecipe = recipes[Math.floor(Math.random() * recipes.length)];
+      const randomRecipe = currentRecipes[Math.floor(Math.random() * currentRecipes.length)];
       renderRecipes([randomRecipe]);
     });
   }
 
-  // --- Functions ---
-
-  // Render recipes in the DOM
+  // --- Rendering Function ---
   function renderRecipes(recipesArray) {
     recipesContainer.innerHTML = "";
     if (recipesArray.length === 0) {
@@ -247,17 +128,22 @@ document.addEventListener("DOMContentLoaded", function() {
       return;
     }
     recipesArray.forEach(recipe => {
+      // Build the ingredients list. Use 'extendedIngredients' from API response.
+      const ingredientsHTML = recipe.extendedIngredients
+        ? recipe.extendedIngredients.map(ing => `<li>${ing.name}</li>`).join("")
+        : "";
+      // Create a recipe card element
       const recipeCard = document.createElement("div");
       recipeCard.classList.add("recipe-card");
       recipeCard.innerHTML = `
-        ${recipe.image ? `<img src="${recipe.image}" alt="${recipe.title} Image">` : ""}
+        <img src="${recipe.image}" alt="${recipe.title} Image">
         <h2>${recipe.title}</h2>
         <p>Ready in ${recipe.readyInMinutes} minutes | Servings: ${recipe.servings}</p>
         <div class="divider"></div>
         <div class="cuisine-time">
           <div class="cuisine-time-row">
             <h3>Cuisine:</h3>
-            <p>${recipe.cuisine}</p>
+            <p>${recipe.cuisines && recipe.cuisines.length ? recipe.cuisines.join(", ") : "Unknown"}</p>
           </div>
           <div class="cuisine-time-row">
             <h3>Time:</h3>
@@ -268,7 +154,7 @@ document.addEventListener("DOMContentLoaded", function() {
         <h3>Ingredients</h3>
         <div class="ingredients-list">
           <ul class="ingredients">
-            ${recipe.ingredients.map(ing => `<li>${ing}</li>`).join("")}
+            ${ingredientsHTML}
           </ul>
         </div>
         <button class="view-recipe-btn" onclick="window.open('${recipe.sourceUrl}', '_blank')">View Recipe</button>
@@ -277,32 +163,43 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   }
 
-  // Filter recipes based on selected filters
+  // --- Filtering Function ---
   function filterRecipes() {
     // Get selected filters from each dropdown
-    const selectedDiets = Array.from(document.querySelectorAll("#dropdown-diets .dropdown-btn.selected")).map(btn => btn.textContent.trim().toLowerCase());
-    const selectedCuisine = Array.from(document.querySelectorAll("#dropdown-cuisine .dropdown-btn.selected")).map(btn => btn.textContent.trim().toLowerCase());
-    const selectedCookingTime = Array.from(document.querySelectorAll("#dropdown-cooking-time .dropdown-btn.selected")).map(btn => btn.textContent.trim().toLowerCase());
-    const selectedIngredients = Array.from(document.querySelectorAll("#dropdown-ingredients .dropdown-btn.selected")).map(btn => btn.textContent.trim().toLowerCase());
+    const selectedDiets = Array.from(document.querySelectorAll("#dropdown-diets .dropdown-btn.selected"))
+      .map(btn => btn.textContent.trim().toLowerCase());
+    const selectedCuisine = Array.from(document.querySelectorAll("#dropdown-cuisine .dropdown-btn.selected"))
+      .map(btn => btn.textContent.trim().toLowerCase());
+    const selectedCookingTime = Array.from(document.querySelectorAll("#dropdown-cooking-time .dropdown-btn.selected"))
+      .map(btn => btn.textContent.trim().toLowerCase());
+    const selectedIngredients = Array.from(document.querySelectorAll("#dropdown-ingredients .dropdown-btn.selected"))
+      .map(btn => btn.textContent.trim().toLowerCase());
 
-    return recipes.filter(recipe => {
+    return currentRecipes.filter(recipe => {
       let dietMatch = true;
       let cuisineMatch = true;
       let cookingTimeMatch = true;
       let ingredientsMatch = true;
 
-      // Diet filtering: if any diet filter is selected, recipe must match at least one.
+      // Diet filtering: using API boolean properties
       if (selectedDiets.length > 0) {
-        const recipeDiets = recipe.diets.map(d => d.toLowerCase());
-        dietMatch = selectedDiets.some(filterDiet => recipeDiets.includes(filterDiet));
+        selectedDiets.forEach(diet => {
+          if (diet === "vegan" && !recipe.vegan) dietMatch = false;
+          if (diet === "vegetarian" && !recipe.vegetarian) dietMatch = false;
+          if (diet === "gluten-free" && !recipe.glutenFree) dietMatch = false;
+          if (diet === "dairy-free" && !recipe.dairyFree) dietMatch = false;
+          // TO DO: check for "meat" and "fish", add custom logic if needed.
+        });
       }
 
-      // Cuisine filtering
+      // Cuisine filtering: API returns an array in recipe.cuisines
       if (selectedCuisine.length > 0) {
-        cuisineMatch = selectedCuisine.includes(recipe.cuisine.toLowerCase());
+        cuisineMatch = selectedCuisine.some(c =>
+          recipe.cuisines.map(v => v.toLowerCase()).includes(c)
+        );
       }
 
-      // Cooking time filtering
+      // Cooking time filtering: compare recipe.readyInMinutes with filter text
       if (selectedCookingTime.length > 0) {
         cookingTimeMatch = selectedCookingTime.some(timeFilter => {
           if (timeFilter.includes("under 15")) return recipe.readyInMinutes < 15;
@@ -313,13 +210,13 @@ document.addEventListener("DOMContentLoaded", function() {
         });
       }
 
-      // Ingredients filtering
-      if (selectedIngredients.length > 0) {
+      // Ingredients filtering: using extendedIngredients array length
+      if (selectedIngredients.length > 0 && recipe.extendedIngredients) {
         ingredientsMatch = selectedIngredients.some(ingFilter => {
-          if (ingFilter.includes("under 5")) return recipe.ingredients.length < 5;
-          if (ingFilter.includes("6-10")) return recipe.ingredients.length >= 5 && recipe.ingredients.length <= 10;
-          if (ingFilter.includes("11-15")) return recipe.ingredients.length > 10 && recipe.ingredients.length <= 15;
-          if (ingFilter.includes("over 16")) return recipe.ingredients.length > 15;
+          if (ingFilter.includes("under 5")) return recipe.extendedIngredients.length < 5;
+          if (ingFilter.includes("6-10")) return recipe.extendedIngredients.length >= 5 && recipe.extendedIngredients.length <= 10;
+          if (ingFilter.includes("11-15")) return recipe.extendedIngredients.length > 10 && recipe.extendedIngredients.length <= 15;
+          if (ingFilter.includes("over 16")) return recipe.extendedIngredients.length > 15;
           return true;
         });
       }
@@ -328,7 +225,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   }
 
-  // Sort recipes based on the sort type (button text)
+  // --- Sorting Function ---
   function sortRecipes(recipesArray, sortType) {
     const sorted = [...recipesArray];
     if (sortType.toLowerCase().includes("cooking time (ascending)")) {
@@ -336,13 +233,68 @@ document.addEventListener("DOMContentLoaded", function() {
     } else if (sortType.toLowerCase().includes("cooking time (descending)")) {
       sorted.sort((a, b) => b.readyInMinutes - a.readyInMinutes);
     } else if (sortType.toLowerCase().includes("ingredients (ascending)")) {
-      sorted.sort((a, b) => a.ingredients.length - b.ingredients.length);
+      sorted.sort((a, b) => a.extendedIngredients.length - b.extendedIngredients.length);
     } else if (sortType.toLowerCase().includes("ingredients (descending)")) {
-      sorted.sort((a, b) => b.ingredients.length - a.ingredients.length);
+      sorted.sort((a, b) => b.extendedIngredients.length - a.extendedIngredients.length);
     }
     return sorted;
   }
 
-  // Initial render of all recipes
-  renderRecipes(recipes);
+  // --- Infinite Scrolling / Pagination ---
+  // Flag to prevent multiple fetches at once
+  let isFetching = false;
+
+  window.addEventListener("scroll", async function() {
+    // Check if user is near the bottom (with a 100px buffer)
+    if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 100) && !isFetching) {
+      isFetching = true;
+      try {
+        const newRecipes = await fetchRecipes();
+        // Append new recipes to the global list
+        currentRecipes = currentRecipes.concat(newRecipes);
+        // Append new recipes to the DOM without clearing existing ones
+        appendRecipes(newRecipes);
+      } catch (error) {
+        console.error("Error fetching more recipes:", error.message);
+      } finally {
+        isFetching = false;
+      }
+    }
+  });
+
+  // Function to append recipes (instead of replacing all content)
+  function appendRecipes(recipesArray) {
+    recipesArray.forEach(recipe => {
+      const ingredientsHTML = recipe.extendedIngredients
+        ? recipe.extendedIngredients.map(ing => `<li>${ing.name}</li>`).join("")
+        : "";
+      const recipeCard = document.createElement("div");
+      recipeCard.classList.add("recipe-card");
+      recipeCard.innerHTML = `
+        <img src="${recipe.image}" alt="${recipe.title} Image">
+        <h2>${recipe.title}</h2>
+        <p>Ready in ${recipe.readyInMinutes} minutes | Servings: ${recipe.servings}</p>
+        <div class="divider"></div>
+        <div class="cuisine-time">
+          <div class="cuisine-time-row">
+            <h3>Cuisine:</h3>
+            <p>${recipe.cuisines && recipe.cuisines.length ? recipe.cuisines.join(", ") : "Unknown"}</p>
+          </div>
+          <div class="cuisine-time-row">
+            <h3>Time:</h3>
+            <p>${recipe.readyInMinutes} minutes</p>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <h3>Ingredients</h3>
+        <div class="ingredients-list">
+          <ul class="ingredients">
+            ${ingredientsHTML}
+          </ul>
+        </div>
+        <button class="view-recipe-btn" onclick="window.open('${recipe.sourceUrl}', '_blank')">View Recipe</button>
+      `;
+      recipesContainer.appendChild(recipeCard);
+    });
+  }
 });

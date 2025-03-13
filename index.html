@@ -76,121 +76,27 @@
               Sort by: <span class="arrow-icon"></span>
             </a>
             <div id="dropdown-sort" class="dropdown-menu">
-              <button class="dropdown-btn sort-btn">Cooking time</button>
-              <button class="dropdown-btn sort-btn">Popularity</button>
-              <button class="dropdown-btn sort-btn">Price per serving</button>
-              <button class="dropdown-btn sort-btn">-/+ Ingredients</button>
+              <button class="dropdown-btn sort-btn">Cooking time (ascending)</button>
+              <button class="dropdown-btn sort-btn">Cooking time (descending)</button>
+              <button class="dropdown-btn sort-btn">Ingredients (ascending)</button>
+              <button class="dropdown-btn sort-btn">Ingredients (descending)</button>
               <button class="dropdown-btn sort-btn">Newest</button>
               <button class="dropdown-btn sort-btn">Rating</button>
             </div>
+          </div>
+          <!-- Surprise me button -->
+          <div class="dropdown-container surprise-container">
+            <button id="surpriseBtn" class="dropdown-btn sort-btn">
+              <img src="./assets/surprise_default.svg" alt="Surprise Icon" class="surprise-icon">
+              Surprise me!
+            </button>
           </div>
         </div>
       </nav>
     </header>
     <main>
       <section class="recipes">
-        <!-- Recipe Card 1 -->
-        <div class="recipe-card">
-          <h2>Temporary placeholder for filters/sorting options</h2>
-          <div class="divider"></div>
-          <div class="cuisine-time">
-            <div class="cuisine-time-row">
-              <h3>Cuisine:</h3>
-              <p>You choose!</p>
-            </div>
-            <div class="cuisine-time-row">
-              <h3>Time:</h3>
-              <p>We'll see soon</p>
-            </div>
-          </div>
-          <div class="divider"></div>
-          <h3>Messages</h3>
-          <section id="answers"></section>
-        </div>
-        <!-- Recipe Card 2 -->
-        <div class="recipe-card">
-          <img src="./assets/tacos.webp" alt="Tacos Image">
-          <h2>Chipotle-smoked Butter with Geepeetee tacos</h2>
-          <p>Smoke on the butter!</p>
-          <div class="divider"></div>
-          <div class="cuisine-time">
-            <div class="cuisine-time-row">
-              <h3>Cuisine:</h3>
-              <p>Mexican</p>
-            </div>
-            <div class="cuisine-time-row">
-              <h3>Time:</h3>
-              <p>20 minutes</p>
-            </div>
-          </div>
-          <div class="divider"></div>
-          <h3>Ingredients</h3>
-          <div class="ingredients-list">
-            <ul class="ingredients">
-              <li>1 cup corn flour</li>
-              <li>Ghee Butter, geez, lots of ghee butter</li>
-              <li>Meat, a ton won't be enough</li>
-              <li>10 liters of habanero sauce</li>
-            </ul>
-          </div>
-          <button class="view-recipe-btn">View Recipe</button>
-        </div>
-        <!-- Recipe Card 3 -->
-        <div class="recipe-card">
-          <img src="./assets/codepenne.webp" alt="Codepenne Image">
-          <h2>Codepenne al Figmatti</h2>
-          <p>With micro soft apples.</p>
-          <div class="divider"></div>
-          <div class="cuisine-time">
-            <div class="cuisine-time-row">
-              <h3>Cuisine:</h3>
-              <p>Italian</p>
-            </div>
-            <div class="cuisine-time-row">
-              <h3>Time:</h3>
-              <p>45 minutes</p>
-            </div>
-          </div>
-          <div class="divider"></div>
-          <h3>Ingredients</h3>
-          <div class="ingredients-list">
-            <ul class="ingredients">
-              <li>500g gluten rich fluor</li>
-              <li>2 tbsp. olive oil, plus a little extra for drizzling</li>
-              <li>25g parmesan (or vegetarian alternative), grated</li>
-              <li>75g micro soft apples</li>
-            </ul>
-          </div>
-          <button class="view-recipe-btn">View Recipe</button>
-        </div>
-        <!-- Recipe Card 4 -->
-        <div class="recipe-card">
-          <img src="./assets/kanba_sushi.webp" alt="Sushi Image">
-          <h2>Kanba Sushi</h2>
-          <p>Exotic and pleasant in one single (mega)bite</p>
-          <div class="divider"></div>
-          <div class="cuisine-time">
-            <div class="cuisine-time-row">
-              <h3>Cuisine:</h3>
-              <p>Asian</p>
-            </div>
-            <div class="cuisine-time-row">
-              <h3>Time:</h3>
-              <p>15 minutes</p>
-            </div>
-          </div>
-          <div class="divider"></div>
-          <h3>Ingredients</h3>
-          <div class="ingredients-list">
-            <ul class="ingredients">
-              <li>1 kg Fish</li>
-              <li>500 g Rice</li>
-              <li>Seagrass</li>
-              <li>Wasabi</li>
-            </ul>
-          </div>
-          <button class="view-recipe-btn">View Recipe</button>
-        </div>
+        <!-- Recipe cards will be rendered dynamically here via JavaScript -->
       </section>
     </main>
     <script src="./script.js"></script>

@@ -175,6 +175,14 @@ html, body {
   box-shadow: none;
 }
 
+/* Surprise me! icon styling */
+.surprise-icon {
+  height: 1em;
+  width: auto;
+
+  vertical-align: middle;
+}
+
 /* Recipe cards container */
 .recipes {
   display: flex;
@@ -333,6 +341,12 @@ gap: 5px; /* Adds spacing between elements */
     flex: 0 0 20%;
     position: relative;
   }
+
+  .dropdown-container.surprise-container {
+    flex: 0 0 auto;
+    margin-left: 20px;
+  }
+  
   /* Move arrow icons close to the text */
   .dropdown-trigger {
     justify-content: flex-start;
@@ -355,6 +369,7 @@ gap: 5px; /* Adds spacing between elements */
     border-radius: 10px;
     z-index: 1000; /* A high z-index so it appears on top */
   }
+
   .recipe-card {
     width: calc(25% - 24px); /* Four per row with spacing */
   }

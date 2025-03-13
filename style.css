@@ -177,10 +177,10 @@ html, body {
 
 /* Surprise me! icon styling */
 .surprise-icon {
-  height: 1em;
-  width: auto;
-
-  vertical-align: middle;
+  width: 1em; 
+  height: auto;          /* Let width auto-scale the height */
+  margin-right: 4px;     /* Small gap between icon and text */
+  vertical-align: middle;/* Align icon with text baseline */
 }
 
 /* Recipe cards container */
@@ -330,21 +330,23 @@ gap: 5px; /* Adds spacing between elements */
   .menu-icon {
     display: none;
   }
+
   .nav-links {
     display: flex !important;
     flex-direction: row;
     flex-wrap: wrap;
     padding: 13px;
   }
-  /* Force each navigation (dropdown container) to take 25% width */
+  /* Force each navigation (dropdown container) to take 20% width */
   .dropdown-container {
-    flex: 0 0 20%;
+    flex: 0 0 17%;
     position: relative;
   }
 
   .dropdown-container.surprise-container {
     flex: 0 0 auto;
-    margin-left: 20px;
+    flex-direction: row;
+    align-items: center;
   }
   
   /* Move arrow icons close to the text */

@@ -18,9 +18,6 @@ document.addEventListener("DOMContentLoaded", function() {
   const meatBtn = document.getElementById("meat");
   const fishBtn = document.getElementById("fish");
 
-  // (Optional) Message box if you want to show messages on a specific card
-  const messageBox = document.getElementById("answers");
-
   // --- Recipe Data ---
   const recipes = [
     {

@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", async function() {
   function renderRecipes(recipesArray) {
     recipesContainer.innerHTML = "";
     if (recipesArray.length === 0) {
-      recipesContainer.innerHTML = "<p>Ooops, we couldn’t find something here. Maybe soon!</p>";
+      recipesContainer.innerHTML = "<p>Ooops, we couldn’t find something here. Try reloading the page!</p>";
       return;
     }
     recipesArray.forEach(recipe => {

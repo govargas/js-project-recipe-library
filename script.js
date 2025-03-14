@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     const BASE_URL = "https://api.spoonacular.com/recipes/random";
     const API_KEY = "38995979effa4b9ba9ef9e5e014aa6c0";
     // Request 15 recipes
-    const URL = `${BASE_URL}?apiKey=${API_KEY}&number=15`;
+    const URL = `${BASE_URL}?apiKey=${API_KEY}&number=100`;
 
     try {
       const response = await fetch(URL);

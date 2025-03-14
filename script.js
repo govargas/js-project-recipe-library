@@ -1,3 +1,4 @@
+// API Configuration Object
 const spoonacularSettings = {
   apiKey: '38995979effa4b9ba9ef9e5e014aa6c0',
   baseUrl: 'https://api.spoonacular.com/recipes/random',

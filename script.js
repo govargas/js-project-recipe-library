@@ -1,3 +1,41 @@
+const spoonacularSettings = {
+  apiKey: '38995979effa4b9ba9ef9e5e014aa6c0',
+  baseUrl: 'https://api.spoonacular.com/recipes/random',
+  recipeCount: 100,
+  cacheTimeout: 60 * 60 * 1000 // equals to 1 hour in milliseconds
+};
+
+// Save data to localStorage with a timestamp
+function saveToCache(key, data) {
+  try {
+    const item = {
+      timestamp: Date.now(),
+      data: data
+    };
+    localStorage.setItem(key, JSON.stringify(item));
+  } catch (error) {
+    console.error('Error saving cache:', error);
+  }
+}
+
+// Retrieve data from localStorage only if it hasn't expired
+function getFromCache(key) {
+  try {
+    const item = localStorage.getItem(key);
+    if (!item) return null;
+    const parsed = JSON.parse(item);
+    const now = Date.now();
+    if (now - parsed.timestamp > spoonacularSettings.cacheTimeout) {
+      localStorage.removeItem(key);
+      return null;
+    }
+    return parsed.data;
+  } catch (error) {
+    console.error('Error reading cache:', error);
+    return null;
+  }
+}
+
 document.addEventListener("DOMContentLoaded", async function() {
   // --- DOM Selectors ---
   const menuIcon = document.getElementById("menu-icon");
@@ -25,12 +63,15 @@ document.addEventListener("DOMContentLoaded", async function() {
   // --- Loading State ---
   recipesContainer.innerHTML = "<p>Loading recipes...</p>";
 
-  // --- Fetching Recipes from Spoonacular API ---
+  // --- Fetching Recipes from Spoonacular API with Caching ---
   async function fetchRecipes() {
-    const BASE_URL = "https://api.spoonacular.com/recipes/random";
-    const API_KEY = "38995979effa4b9ba9ef9e5e014aa6c0";
-    const URL = `${BASE_URL}?apiKey=${API_KEY}&number=100`;
+    // First, check cache on initial load
+    const cached = getFromCache("recipes");
+    if (cached && cached.length > 0) {
+      return cached;
+    }
 
+    const URL = `${spoonacularSettings.baseUrl}?apiKey=${spoonacularSettings.apiKey}&number=${spoonacularSettings.recipeCount}`;
     try {
       const response = await fetch(URL);
       if (!response.ok) {
@@ -40,7 +81,7 @@ document.addEventListener("DOMContentLoaded", async function() {
       let fetchedRecipes = data.recipes.filter(recipe => {
         return recipe.cuisines && recipe.cuisines.length > 0 && recipe.image && recipe.title;
       });
-      localStorage.setItem("recipes", JSON.stringify(fetchedRecipes));
+      saveToCache("recipes", fetchedRecipes);
       return fetchedRecipes;
     } catch (error) {
       console.error("Fetch error:", error.message);
@@ -55,16 +96,14 @@ document.addEventListener("DOMContentLoaded", async function() {
     currentRecipes = fetchedRecipes;
     renderRecipes(currentRecipes);
   } catch (error) {
-    const storedRecipes = localStorage.getItem("recipes");
+    const storedRecipes = getFromCache("recipes");
     if (storedRecipes) {
-      allRecipes = JSON.parse(storedRecipes);
-      currentRecipes = allRecipes;
+      allRecipes = storedRecipes;
+      currentRecipes = storedRecipes;
       renderRecipes(currentRecipes);
-      recipesContainer.innerHTML +=
-        "<p>We've reached the API quota; displaying cached recipes.</p>";
+      recipesContainer.innerHTML += "<p>We've reached the API quota; displaying cached recipes.</p>";
     } else {
-      recipesContainer.innerHTML =
-        "<p>Ooops, we couldn’t fetch recipes. Please try again later.</p>";
+      recipesContainer.innerHTML = "<p>Ooops, we couldn’t fetch recipes. Please try again later.</p>";
     }
   }
 
@@ -108,8 +147,7 @@ document.addEventListener("DOMContentLoaded", async function() {
 
   if (surpriseBtn) {
     surpriseBtn.addEventListener("click", function() {
-      const randomRecipe =
-        currentRecipes[Math.floor(Math.random() * currentRecipes.length)];
+      const randomRecipe = currentRecipes[Math.floor(Math.random() * currentRecipes.length)];
       renderRecipes([randomRecipe]);
     });
   }
@@ -154,9 +192,7 @@ document.addEventListener("DOMContentLoaded", async function() {
             ${ingredientsHTML}
           </ul>
         </div>
-        <button class="view-recipe-btn" onclick="window.open('${
-          recipe.sourceUrl
-        }', '_blank')">View Recipe</button>
+        <button class="view-recipe-btn" onclick="window.open('${recipe.sourceUrl}', '_blank')">View Recipe</button>
       `;
       recipesContainer.appendChild(recipeCard);
     });

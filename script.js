@@ -149,7 +149,7 @@ document.addEventListener("DOMContentLoaded", async function() {
   if (surpriseBtn) {
     surpriseBtn.addEventListener("click", function() {
       if (currentRecipes.length === 0) {
-        recipesContainer.innerHTML = "<p>No matching recipe found for the selected filters. Please reset the filters or select different options.</p>";
+        recipesContainer.innerHTML = "<p>No matching recipe found for the selected filters. Please reset the filters, select different options or try refreshing the page in a while.</p>";
       } else {
         const randomRecipe = currentRecipes[Math.floor(Math.random() * currentRecipes.length)];
         renderRecipes([randomRecipe]);

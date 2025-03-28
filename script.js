@@ -37,6 +37,37 @@ function getFromCache(key) {
   }
 }
 
+// Modified fetchRecipes function now accepts a bypassCache parameter
+async function fetchRecipes(bypassCache = false) {
+  // If bypassCache is false, attempt to use the cached data
+  if (!bypassCache) {
+    const cached = getFromCache("recipes");
+    if (cached && cached.length > 0) {
+      return cached;
+    }
+  }
+  
+  const URL = `${spoonacularSettings.baseUrl}?apiKey=${spoonacularSettings.apiKey}&number=${spoonacularSettings.recipeCount}`;
+  try {
+    const response = await fetch(URL);
+    if (!response.ok) {
+      throw new Error(`Error! Status: ${response.status}`);
+    }
+    const data = await response.json();
+    const fetchedRecipes = data.recipes.filter(recipe => {
+      return recipe.cuisines && recipe.cuisines.length > 0 && recipe.image && recipe.title;
+    });
+    // Only save to cache when not bypassing
+    if (!bypassCache) {
+      saveToCache("recipes", fetchedRecipes);
+    }
+    return fetchedRecipes;
+  } catch (error) {
+    console.error("Fetch error:", error.message);
+    throw error;
+  }
+}
+
 document.addEventListener("DOMContentLoaded", async function() {
   // --- DOM Selectors ---
   const menuIcon = document.getElementById("menu-icon");
@@ -63,32 +94,6 @@ document.addEventListener("DOMContentLoaded", async function() {
 
   // --- Loading State ---
   recipesContainer.innerHTML = "<p>Loading recipes...</p>";
-
-  // --- Fetching Recipes from Spoonacular API with Caching ---
-  async function fetchRecipes() {
-    // First, check cache on initial load
-    const cached = getFromCache("recipes");
-    if (cached && cached.length > 0) {
-      return cached;
-    }
-
-    const URL = `${spoonacularSettings.baseUrl}?apiKey=${spoonacularSettings.apiKey}&number=${spoonacularSettings.recipeCount}`;
-    try {
-      const response = await fetch(URL);
-      if (!response.ok) {
-        throw new Error(`Error! Status: ${response.status}`);
-      }
-      const data = await response.json();
-      const fetchedRecipes = data.recipes.filter(recipe => {
-        return recipe.cuisines && recipe.cuisines.length > 0 && recipe.image && recipe.title;
-      });
-      saveToCache("recipes", fetchedRecipes);
-      return fetchedRecipes;
-    } catch (error) {
-      console.error("Fetch error:", error.message);
-      throw error;
-    }
-  }
 
   // --- Initial Data Load ---
   try {
@@ -149,7 +154,7 @@ document.addEventListener("DOMContentLoaded", async function() {
   if (surpriseBtn) {
     surpriseBtn.addEventListener("click", function() {
       if (currentRecipes.length === 0) {
-        recipesContainer.innerHTML = "<p>No matching recipe found for the selected filters. Please reset the filters, select different options or try refreshing the page in a while.</p>";
+        recipesContainer.innerHTML = "<p>No matching recipe found for the selected filters. Please reset the filters, select different options or try refreshing the page in a while</p>";
       } else {
         const randomRecipe = currentRecipes[Math.floor(Math.random() * currentRecipes.length)];
         renderRecipes([randomRecipe]);
@@ -313,12 +318,13 @@ document.addEventListener("DOMContentLoaded", async function() {
     ) {
       isFetching = true;
       try {
-        const newRecipes = await fetchRecipes();
-        allRecipes = allRecipes.concat(newRecipes);
-        // Deduplicate recipes by ID to avoid identical entries
-        allRecipes = allRecipes.filter((recipe, index, self) =>
-          index === self.findIndex((r) => r.id === recipe.id)
+        // Pass true to bypass the cache and fetch fresh recipes
+        const newRecipes = await fetchRecipes(true);
+        // Filter out duplicates from the newly fetched recipes
+        const uniqueNewRecipes = newRecipes.filter(newRecipe => 
+          !allRecipes.some(existingRecipe => existingRecipe.id === newRecipe.id)
         );
+        allRecipes = allRecipes.concat(uniqueNewRecipes);
         currentRecipes = filterRecipes();
         renderRecipes(currentRecipes);
       } catch (error) {

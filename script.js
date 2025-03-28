@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", async function() {
         throw new Error(`Error! Status: ${response.status}`);
       }
       const data = await response.json();
-      let fetchedRecipes = data.recipes.filter(recipe => {
+      const fetchedRecipes = data.recipes.filter(recipe => {
         return recipe.cuisines && recipe.cuisines.length > 0 && recipe.image && recipe.title;
       });
       saveToCache("recipes", fetchedRecipes);
@@ -148,8 +148,12 @@ document.addEventListener("DOMContentLoaded", async function() {
 
   if (surpriseBtn) {
     surpriseBtn.addEventListener("click", function() {
-      const randomRecipe = currentRecipes[Math.floor(Math.random() * currentRecipes.length)];
-      renderRecipes([randomRecipe]);
+      if (currentRecipes.length === 0) {
+        recipesContainer.innerHTML = "<p>No matching recipe found for the selected filters. Please reset the filters or select different options.</p>";
+      } else {
+        const randomRecipe = currentRecipes[Math.floor(Math.random() * currentRecipes.length)];
+        renderRecipes([randomRecipe]);
+      }
     });
   }
 
@@ -311,6 +315,10 @@ document.addEventListener("DOMContentLoaded", async function() {
       try {
         const newRecipes = await fetchRecipes();
         allRecipes = allRecipes.concat(newRecipes);
+        // Deduplicate recipes by ID to avoid identical entries
+        allRecipes = allRecipes.filter((recipe, index, self) =>
+          index === self.findIndex((r) => r.id === recipe.id)
+        );
         currentRecipes = filterRecipes();
         renderRecipes(currentRecipes);
       } catch (error) {

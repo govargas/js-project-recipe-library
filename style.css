@@ -133,7 +133,7 @@ html, body {
   border-radius: 50px;
   box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.3);
   background-color: #CCFFE2;
-  border: none;
+  border: 2px solid transparent; /* Added transparent border to avoid jump on hover */
   color: #0018A4;
   cursor: pointer;
   transition: border 0.2s ease, color 0.2s ease, background-color 0.2s ease;
@@ -152,7 +152,7 @@ html, body {
 .dropdown-btn.selected {
   background-color: #0018A4;
   color: #fff;
-  border: none;
+  border: 2px solid transparent; /* Added transparent border to avoid jump on hover */
 }
 
 /* Sort-by buttons: different color palette */
@@ -160,12 +160,14 @@ html, body {
   background-color: #FFECEA;
   color: #0018A4;
   box-shadow: none;
+  border: 2px solid transparent; /* Added transparent border to avoid jump on hover */
 }
 
 .sort-btn.selected {
   background-color: #FF6589;
   color: #fff;
   box-shadow: none;
+  border: 2px solid transparent;
 }
 
 .sort-btn:hover {
@@ -278,9 +280,9 @@ html, body {
 }
 
 .cuisine-time-row {
-display: flex;
-align-items: baseline; /* Aligns text properly */
-gap: 5px; /* Adds spacing between elements */
+  display: flex;
+  align-items: baseline; /* Aligns text properly */
+  gap: 5px; /* Adds spacing between elements */
 }
 
 .cuisine-time h3,
@@ -299,10 +301,10 @@ gap: 5px; /* Adds spacing between elements */
   font-size: 17px;
   font-style: normal;
   font-weight: 500;
-  line-height: normal;
   line-height: 1; /* Adjust spacing */
   padding: 4px 0; /* Adds some vertical spacing */
 }
+
 /* Button */
 .view-recipe-btn {
   padding: 10px 16px;
@@ -327,7 +329,6 @@ gap: 5px; /* Adds spacing between elements */
   .recipe-card {
     width: calc(50% - 16px); /* Two per row with spacing */
   }
-
 }
 
 /* Desktop view adjustments */
